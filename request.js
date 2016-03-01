@@ -28,6 +28,7 @@ var http = require('http')
   , Multipart = require('./lib/multipart').Multipart
   , Redirect = require('./lib/redirect').Redirect
   , Tunnel = require('./lib/tunnel').Tunnel
+  , uuid = require('node-uuid')
 
 var safeStringify = helpers.safeStringify
   , isReadStream = helpers.isReadStream
@@ -105,6 +106,11 @@ function responseToJSON() {
   }
 }
 
+// Generate and return a new CID
+function newCid() {
+  return uuid.v4()
+}
+
 function Request (options) {
   // if given the method property in options, set property explicitMethod to true
 
@@ -168,6 +174,21 @@ Request.prototype.init = function (options) {
   for (var headerName in self.headers) {
     if (typeof self.headers[headerName] === 'undefined') {
       delete self.headers[headerName]
+    }
+  }
+
+  /**
+  Adding cid to the request headers in a soft manner.
+  Check in headers, then check in options. If found no where, create and
+  insert.
+  **/
+  // if no cid in headers
+  if (! self.headers['Cid']) {
+    // if no cid in options
+    if (! options.cid) {
+      self.headers['Cid'] = newCid()
+    } else {
+      self.headers['Cid'] = options.cid
     }
   }
 
@@ -1234,10 +1255,10 @@ Request.prototype.aws = function (opts, now) {
     self._aws = opts
     return self
   }
-  
+
   if (opts.sign_version == 4 || opts.sign_version == '4') {
     var aws4 = require('aws4')
-    // use aws4  
+    // use aws4
     var options = {
       host: self.uri.host,
       path: self.uri.path,
