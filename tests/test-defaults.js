@@ -64,7 +64,7 @@ tape('merge headers', function(t) {
 
 tape('deep extend', function(t) {
   request.defaults({
-    headers: {a: 1, b: 2 },
+    headers: {a: 1, b: 2 , 'Cid': '123'},
     qs: { a: 1, b: 2 }
   })(s.url + '/', {
     headers: { b: 3, c: 4 },
@@ -74,7 +74,7 @@ tape('deep extend', function(t) {
     delete b.headers.host
     delete b.headers.accept
     delete b.headers.connection
-    t.deepEqual(b.headers, { a: '1', b: '3', c: '4' })
+    t.deepEqual(b.headers, { a: '1', b: '3', c: '4', cid: '123' })
     t.deepEqual(b.qs, { a: '1', b: '3', c: '4' })
     t.end()
   })
