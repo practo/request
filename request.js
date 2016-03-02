@@ -176,14 +176,18 @@ Request.prototype.init = function (options) {
   Adding cid to the request headers in a soft manner.
   Check in headers, then check in options. If found no where, create and
   insert.
+  options set to `noCid` as true can used to explicitely avoid tagging the
+  request with cid.
   **/
-  // if no cid in headers
-  if (! self.headers['Cid']) {
-    // if no cid in options
-    if (! options.cid) {
-      self.headers['Cid'] = helpers.newCid()
-    } else {
-      self.headers['Cid'] = options.cid
+  if (! options.noCid) {
+    // if no cid in headers
+    if (! self.headers['Cid']) {
+      // if no cid in options
+      if (! options.cid) {
+        self.headers['Cid'] = helpers.newCid()
+      } else {
+        self.headers['Cid'] = options.cid
+      }
     }
   }
 

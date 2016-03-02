@@ -27,7 +27,8 @@ tape('succeeds on valid URLs (with https and CORS)', function(t) {
   t.plan(1)
   request({
     uri: 'https://localhost:6767',
-    withCredentials: false
+    withCredentials: false,
+    noCid: true
   }, function (error, response) {
     t.equal(response.statusCode, 200)
     t.end()

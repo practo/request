@@ -44,7 +44,8 @@ tape('proxy', function(t) {
       'dont-send-to-proxy'  : 'ok',
       'dont-send-to-dest'   : 'ok',
       'accept'              : 'yo',
-      'user-agent'          : 'just another foobar'
+      'user-agent'          : 'just another foobar',
+      'Cid'                 : '123'
     },
     proxyHeaderExclusiveList: ['Dont-send-to-dest']
   }, function(err, res, body) {
@@ -65,6 +66,7 @@ tape('proxy', function(t) {
       'dont-send-to-proxy: ok',
       'accept: yo',
       'user-agent: just another foobar',
+      'Cid: 123',
       'host: google.com'
     ].join('\r\n'))
     t.equal(true, re.test(data))
