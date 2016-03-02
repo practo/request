@@ -56,7 +56,25 @@ tape('cid value check passing in headers', function(t) {
     t.equal(err, null)
     t.equal(res.statusCode, 200)
     var headers = JSON.parse(body)
+    t.equal(headers.headers['user-agent'], 'node-req')
     t.equal(headers.headers.cid, '987')
+    t.end()
+  })
+})
+
+tape('cid value generated using newCid()', function(t) {
+  var aCid = request.newCid()
+  var opt = {
+    url: TARGET,
+    headers: {
+      'Cid': aCid
+    }
+  }
+  request(opt, function(err, res, body) {
+    t.equal(err, null)
+    t.equal(res.statusCode, 200)
+    var headers = JSON.parse(body)
+    t.equal(headers.headers.cid, aCid)
     t.end()
   })
 })

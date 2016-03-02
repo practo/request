@@ -138,6 +138,8 @@ request.forever = function (agentOptions, optionsArg) {
   return request.defaults(options)
 }
 
+request.newCid = helpers.newCid
+
 // Exports
 
 module.exports = request

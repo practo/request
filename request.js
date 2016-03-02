@@ -28,7 +28,6 @@ var http = require('http')
   , Multipart = require('./lib/multipart').Multipart
   , Redirect = require('./lib/redirect').Redirect
   , Tunnel = require('./lib/tunnel').Tunnel
-  , uuid = require('node-uuid')
 
 var safeStringify = helpers.safeStringify
   , isReadStream = helpers.isReadStream
@@ -106,10 +105,6 @@ function responseToJSON() {
   }
 }
 
-// Generate and return a new CID
-function newCid() {
-  return uuid.v4()
-}
 
 function Request (options) {
   // if given the method property in options, set property explicitMethod to true
@@ -186,7 +181,7 @@ Request.prototype.init = function (options) {
   if (! self.headers['Cid']) {
     // if no cid in options
     if (! options.cid) {
-      self.headers['Cid'] = newCid()
+      self.headers['Cid'] = helpers.newCid()
     } else {
       self.headers['Cid'] = options.cid
     }
