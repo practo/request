@@ -103,6 +103,14 @@ tape('noCid option check', function(t) {
   })
 })
 
+tape('header with cid and Cid', function(t) {
+  var req1 = { headers: { cid: '121' } }
+  var req2 = { headers: { Cid: '999' } }
+  t.equal(request.extractCid(req1), '121')
+  t.equal(request.extractCid(req2), '999')
+  t.end()
+})
+
 tape('cleanup', function(t) {
   s.close(function() {
     t.end()
