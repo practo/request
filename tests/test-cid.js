@@ -111,6 +111,12 @@ tape('header with cid and Cid', function(t) {
   t.end()
 })
 
+tape('header with bad/empty cid', function(t) {
+  var req = { headers: { cid: '' } }
+  t.equal(request.extractCid(req).length > 1, true)
+  t.end()
+})
+
 tape('cleanup', function(t) {
   s.close(function() {
     t.end()
