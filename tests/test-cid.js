@@ -79,6 +79,30 @@ tape('cid value generated using newCid()', function(t) {
   })
 })
 
+tape('extractCid value check', function(t) {
+  var req = new request.Request({
+    url: 'http://example.com',
+    cid: '999'
+  })
+  t.equal(request.extractCid(req), '999')
+  t.equal(1, 1)
+  t.end()
+})
+
+tape('noCid option check', function(t) {
+  var opt = {
+    url: TARGET,
+    noCid: true
+  }
+  request(opt, function(err, res, body) {
+    t.equal(err, null)
+    t.equal(res.statusCode, 200)
+    var headers = JSON.parse(body)
+    t.equal(headers.headers.cid, undefined)
+    t.end()
+  })
+})
+
 tape('cleanup', function(t) {
   s.close(function() {
     t.end()
