@@ -111,6 +111,12 @@ tape('header with cid and Cid', function(t) {
   t.end()
 })
 
+tape('header with bad/empty cid', function(t) {
+  var req = { headers: { cid: '' } }
+  t.equal(request.extractCid(req).length > 1, true)
+  t.end()
+})
+
 tape('mutateWithCid should add cid to given headers', function(t) {
   var headers = { host: 'foo' }
   headers = request.mutateWithCid(headers)
