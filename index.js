@@ -140,6 +140,7 @@ request.forever = function (agentOptions, optionsArg) {
 
 request.newCid = helpers.newCid
 request.extractCid = helpers.extractCid
+request.mutateWithCid = helpers.mutateWithCid
 
 // Exports
 

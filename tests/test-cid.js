@@ -111,6 +111,29 @@ tape('header with cid and Cid', function(t) {
   t.end()
 })
 
+tape('mutateWithCid should add cid to given headers', function(t) {
+  var headers = { host: 'foo' }
+  headers = request.mutateWithCid(headers)
+  t.equal(!! headers.Cid, true)
+  t.end()
+})
+
+tape('mutateWithCid should not change headers with Cid', function(t) {
+  var headers = { Cid: '111', host: 'foo' }
+  t.equal(
+    JSON.stringify(request.mutateWithCid(headers)), JSON.stringify(headers)
+  )
+  t.end()
+})
+
+tape('mutateWithCid should not change headers with cid', function(t) {
+  var headers = { cid: '222', host: 'foo' }
+  t.equal(
+    JSON.stringify(request.mutateWithCid(headers)), JSON.stringify(headers)
+  )
+  t.end()
+})
+
 tape('cleanup', function(t) {
   s.close(function() {
     t.end()
